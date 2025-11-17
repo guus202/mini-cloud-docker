@@ -1,0 +1,19 @@
+# Gebruiker
+PI_USER=guus
+
+# Nextcloud
+NEXTCLOUD_ADMIN_USER=guus
+NEXTCLOUD_ADMIN_PASSWORD=Guus2013!
+NEXTCLOUD_DB_PASSWORD=Guus2013!
+
+# Jellyfin
+JELLYFIN_ADMIN_USER=guus
+JELLYFIN_ADMIN_PASSWORD=Guus2013!
+
+# Home Assistant
+HOMEASSISTANT_PASSWORD=Guus2013!
+
+# Domeinen / Subdomains (via Caddy)
+NEXTCLOUD_DOMAIN=nextcloud.local
+JELLYFIN_DOMAIN=jellyfin.local
+HOMEASSISTANT_DOMAIN=homeassistant.local
