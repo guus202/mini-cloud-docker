@@ -1,0 +1,78 @@
+version: "3.9"
+
+services:
+
+  # Nextcloud
+  nextcloud-db:
+    image: mariadb:latest
+    container_name: nextcloud-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Guus2013!
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: guus
+      MYSQL_PASSWORD: Guus2013!
+    volumes:
+      - nextcloud-db:/var/lib/mysql
+
+  nextcloud-app:
+    image: nextcloud:latest
+    container_name: nextcloud-app
+    restart: unless-stopped
+    environment:
+      MYSQL_PASSWORD: Guus2013!
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: guus
+      MYSQL_HOST: nextcloud-db
+    volumes:
+      - nextcloud-data:/var/www/html
+    depends_on:
+      - nextcloud-db
+
+  # Jellyfin
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - "8096:8096"
+    volumes:
+      - jellyfin-config:/config
+      - jellyfin-media:/media
+
+  # Home Assistant
+  homeassistant:
+    container_name: home-assistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    volumes:
+      - homeassistant-config:/config
+    network_mode: host
+
+  # Glances monitoring
+  glances:
+    image: nicolargo/glances:latest
+    container_name: glances
+    restart: unless-stopped
+    ports:
+      - "61208:61208"
+    environment:
+      - GLANCES_OPT=-w
+
+  # Uptime Kuma
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    volumes:
+      - kuma-data:/app/data
+
+volumes:
+  nextcloud-db:
+  nextcloud-data:
+  jellyfin-config:
+  jellyfin-media:
+  homeassistant-config:
+  kuma-data:
